@@ -144,12 +144,12 @@ mysql -u <user> -p < STEP2_mysql_import/insert.sql
 ## Legacy or duplicate scripts (cleanup candidates)
 These look like earlier iterations or alternatives and are likely not in the final run order:
 - `STEP2_mysql_import/02b_import_rnaseq_legacy_autoparse.py`
-- `STEP2_mysql_import/importrnaseq.py`
+- `STEP2_mysql_import/legacy/importrnaseq.py`
 - `STEP2_mysql_import/map_ATACcoordinates_genes.py`
 - `STEP2_mysql_import/map_ATACcoordinates_genes2.py`
 - `STEP2_mysql_import/02c_remap_aliases.py`
-- `STEP2_mysql_import/diagnose_methylation.py`
-- `STEP2_mysql_import/diagnose_series_matrix.py`
+- `STEP2_mysql_import/legacy/diagnostics/diagnose_methylation.py`
+- `STEP2_mysql_import/legacy/diagnostics/diagnose_series_matrix.py`
 
 Keep them if you still use them for debugging or one-off recovery. Otherwise, move them into `archive/` or remove.
 
