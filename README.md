@@ -21,6 +21,22 @@ The pipeline imports each layer into MySQL, maps regulatory features to genes, a
 - Implemented focused methylation loading to avoid huge unnecessary tables.
 - Created integration queries for AD vs control comparisons on plasticity genes.
 
+## Results snapshot
+Key outputs from the SQL analysis workflow (`STEP2_mysql_import/insert.sql`):
+
+| Metric | Result |
+|---|---:|
+| Plasticity genes with RNA layer coverage | 365 |
+| Plasticity genes with ATAC layer coverage | 412 |
+| Plasticity genes with methylation layer coverage | 398 |
+| RNA rows overlapping plasticity genes | 556,818 |
+| ATAC peaks linked to plasticity genes | 4,603 |
+| Plasticity genes with both AD and control expression data | 365 |
+| Plasticity genes hypermethylated at promoters in AD | 141 |
+| Genes covered by all three layers | 344 to 356* |
+
+`*` The triple-layer overlap count differs across exploratory queries due to slightly different filters used in those SQL runs.
+
 ## Current repository structure
 
 ```text
