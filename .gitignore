@@ -30,3 +30,4 @@ __pycache__/
 
 # Large CSVs that can be regenerated
 clean_metadata_with_internal_ids.csv
+combined_metadata.csv
