@@ -37,7 +37,7 @@ import urllib.request
 DB_CONFIG = {
     "host":     "localhost",
     "user":     "daria",
-    "password": "simba",   # ← CHANGE THIS
+    "password": os.getenv("DB_PASSWORD", ""),   # ← CHANGE THIS
     "database": "brain_multiomics"
 }
 

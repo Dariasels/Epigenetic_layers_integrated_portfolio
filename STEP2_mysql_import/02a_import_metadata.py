@@ -14,6 +14,7 @@ Requirements:
     pip install mysql-connector-python pandas
 """
 
+import os
 import argparse
 import pandas as pd
 import mysql.connector
@@ -23,7 +24,7 @@ import sys
 DB_CONFIG = {
     "host":     "localhost",
     "user":     "daria",          
-    "password": "simba", 
+    "password": os.getenv("DB_PASSWORD", ""), 
     "database": "brain_multiomics"
 }
 

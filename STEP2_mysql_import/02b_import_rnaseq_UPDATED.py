@@ -43,6 +43,7 @@ Requirements:
   pip install mysql-connector-python pandas
 """
 
+import os
 import argparse
 import pandas as pd
 import mysql.connector
@@ -53,7 +54,7 @@ import io
 DB_CONFIG = {
     "host":     "localhost",
     "user":     "daria",
-    "password": "simba",   # ← CHANGE THIS
+    "password": os.getenv("DB_PASSWORD", ""),   # ← CHANGE THIS
     "database": "brain_multiomics"
 }
 

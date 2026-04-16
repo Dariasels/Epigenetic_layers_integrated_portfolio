@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import mysql.connector
 import sys
@@ -8,7 +9,7 @@ import re
 DB_CONFIG = {
     "host": "localhost",
     "user": "daria",
-    "password": "simba", 
+    "password": os.getenv("DB_PASSWORD", ""), 
     "database": "brain_multiomics"
 }
 

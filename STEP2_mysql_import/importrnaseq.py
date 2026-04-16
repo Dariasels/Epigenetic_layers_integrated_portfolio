@@ -1,3 +1,4 @@
+import os
 import argparse
 import pandas as pd
 import mysql.connector
@@ -7,7 +8,7 @@ import io
 DB_CONFIG = {
     "host":     "localhost",
     "user":     "daria",
-    "password": "simba", 
+    "password": os.getenv("DB_PASSWORD", ""), 
     "database": "brain_multiomics"
 }
 

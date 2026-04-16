@@ -32,6 +32,7 @@ Usage:
   python map_ATACcoordinates_genes3.py --genome hg19 --check-unmapped
 """
 
+import os
 import mysql.connector
 import requests
 import time
@@ -41,7 +42,7 @@ import re
 DB_CONFIG = {
     "host":     "localhost",
     "user":     "daria",
-    "password": "simba",
+    "password": os.getenv("DB_PASSWORD", ""),
     "database": "brain_multiomics"
 }
 

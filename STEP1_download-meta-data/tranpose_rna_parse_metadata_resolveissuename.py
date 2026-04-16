@@ -41,6 +41,7 @@ Usage:
     --limit 1000
 """
 
+import os
 import argparse
 import math
 import pandas as pd
@@ -53,7 +54,7 @@ import csv
 DB_CONFIG = {
     "host":     "localhost",
     "user":     "daria",
-    "password": "simba",
+    "password": os.getenv("DB_PASSWORD", ""),
     "database": "brain_multiomics"
 }
 

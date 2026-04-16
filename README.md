@@ -106,7 +106,7 @@ mysql -u <user> -p brain_multiomics < STEP2_mysql_import/05_integration_queries.
 
 ## Legacy or duplicate scripts (cleanup candidates)
 These look like earlier iterations or alternatives and are likely not in the final run order:
-- `STEP2_mysql_import/02b_2.py`
+- `STEP2_mysql_import/02b_import_rnaseq_legacy_autoparse.py`
 - `STEP2_mysql_import/importrnaseq.py`
 - `STEP2_mysql_import/map_ATACcoordinates_genes.py`
 - `STEP2_mysql_import/map_ATACcoordinates_genes2.py`
@@ -118,7 +118,33 @@ These look like earlier iterations or alternatives and are likely not in the fin
 
 Keep them if you still use them for debugging or one-off recovery. Otherwise, move them into `archive/` or remove.
 
+### What `02b_import_rnaseq_legacy_autoparse.py` does
+- This is an older fallback importer for expression files.
+- It auto-detects whether the first row is a header.
+- If no header exists, it creates `Sample_0`, `Sample_1`, ... column names.
+- It performs aggressive filtering of likely invalid gene identifiers (`RSE_*`, `LOC*`, numeric-only values).
+- It inserts sample IDs into `samples` and expression values into `rna_expression`.
+- It is kept as a legacy backup, not the recommended primary importer.
+
 ## Notes for public GitHub
 - Raw files in `Data_files/` and `metadata/` are intentionally excluded by `.gitignore`.
-- Remove or externalize database credentials from scripts before publishing.
-- If possible, replace hard-coded DB credentials with environment variables.
+- Database passwords are now read from environment variables (`DB_PASSWORD`) instead of hard-coded values.
+
+### Environment setup
+Set your DB password in the shell before running import scripts:
+
+```bash
+export DB_PASSWORD='your_mysql_password'
+```
+
+### Public push checklist
+Use this flow for a clean public push:
+
+```bash
+git status
+git add .
+git commit -m "Sanitize credentials and update docs"
+git push
+```
+
+If a password was previously committed, rotate that password in MySQL even after cleanup.

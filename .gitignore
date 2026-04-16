@@ -15,6 +15,9 @@ files.zip
 # Credentials
 *.password
 *config*.py
+.env
+.env.*
+!.env.example
 
 # Python cache
 __pycache__/

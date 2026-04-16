@@ -49,6 +49,7 @@ Usage:
   python 02d_import_methylation_SMART.py ... --limit 5000
 """
 
+import os
 import argparse
 import mysql.connector
 import csv
@@ -59,7 +60,7 @@ from collections import defaultdict
 DB_CONFIG = {
     "host":     "localhost",
     "user":     "daria",
-    "password": "simba",
+    "password": os.getenv("DB_PASSWORD", ""),
     "database": "brain_multiomics"
 }
 

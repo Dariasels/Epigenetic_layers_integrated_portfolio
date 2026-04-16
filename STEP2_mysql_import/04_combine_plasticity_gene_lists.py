@@ -1,10 +1,11 @@
+import os
 import mysql.connector
 
 # --- DATABASE CONFIG ---
 DB_CONFIG = {
     "host":     "localhost",
     "user":     "daria",
-    "password": "simba", 
+    "password": os.getenv("DB_PASSWORD", ""), 
     "database": "brain_multiomics"
 }
 

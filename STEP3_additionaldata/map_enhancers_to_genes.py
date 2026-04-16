@@ -16,12 +16,13 @@ Usage:
   python map_enhancers_to_genes.py
 """
 
+import os
 import mysql.connector
 
 DB_CONFIG = {
     "host":     "localhost",
     "user":     "daria",
-    "password": "simba",
+    "password": os.getenv("DB_PASSWORD", ""),
     "database": "brain_multiomics"
 }
 

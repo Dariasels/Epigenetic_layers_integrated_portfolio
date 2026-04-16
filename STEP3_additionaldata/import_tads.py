@@ -31,6 +31,7 @@ GSE105194_ENCFF306YQN_topologically_associated_domains_hg19.bed
   python import_tads.py --map-atac
 """
 
+import os
 import argparse
 import mysql.connector
 import sys
@@ -38,7 +39,7 @@ import sys
 DB_CONFIG = {
     "host":     "localhost",
     "user":     "daria",
-    "password": "simba",
+    "password": os.getenv("DB_PASSWORD", ""),
     "database": "brain_multiomics"
 }
 

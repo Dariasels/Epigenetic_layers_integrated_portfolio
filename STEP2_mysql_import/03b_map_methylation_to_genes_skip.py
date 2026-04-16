@@ -54,7 +54,7 @@ import os
 DB_CONFIG = {
     "host":     "localhost",
     "user":     "root",
-    "password": "your_password",   # ← CHANGE THIS
+    "password": os.getenv("DB_PASSWORD", ""),   # ← CHANGE THIS
     "database": "brain_multiomics"
 }
 

@@ -1,4 +1,5 @@
 #map coordinates to genes
+import os
 import mysql.connector
 import requests
 import time
@@ -7,7 +8,7 @@ import time
 DB_CONFIG = {
     "host":     "localhost",
     "user":     "daria",
-    "password": "simba", 
+    "password": os.getenv("DB_PASSWORD", ""), 
     "database": "brain_multiomics"
 }
 
