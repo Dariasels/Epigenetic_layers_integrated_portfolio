@@ -1,14 +1,25 @@
 # Epigenetic Layers Integrated
 
-AD vs control x brain plasticity genes x microarray expression x ATAC-seq x methylation
+Alzheimer vs control x brain plasticity genes x expression x ATAC-seq x methylation
 
-## Project summary
-This project integrates three molecular layers from Alzheimer disease (AD) prefrontal cortex datasets:
+## Project overview
+This is an end-to-end data integration project that builds a queryable MySQL resource from three AD prefrontal cortex molecular layers:
 - Expression (`GSE33000`, microarray)
 - Chromatin accessibility (`GSE129040`, ATAC broadPeak)
 - DNA methylation (`GSE59685`, Illumina CpG beta values)
 
-The pipeline imports each layer into MySQL, maps genomic features to genes, and focuses downstream analysis on curated brain plasticity genes.
+The pipeline imports each layer into MySQL, maps regulatory features to genes, and focuses analysis on curated brain plasticity genes to support biologically interpretable AD comparisons.
+
+## Why this project is useful
+- Demonstrates practical multi-omics integration across different assay types and identifier systems.
+- Shows robust data engineering from GEO metadata parsing to relational modeling.
+- Produces reusable SQL analyses for cross-layer questions (expression, promoter accessibility, promoter methylation).
+
+## Portfolio highlights
+- Built a reproducible import pipeline in Python + MySQL.
+- Added mapping layers (`atac_gene_links`, `methylation_gene_links`) to connect assays at gene level.
+- Implemented focused methylation loading to avoid huge unnecessary tables.
+- Created integration queries for AD vs control comparisons on plasticity genes.
 
 ## Current repository structure
 
@@ -102,7 +113,17 @@ python STEP2_mysql_import/04_combine_plasticity_gene_lists.py
 
 # 9) Run integration queries
 mysql -u <user> -p brain_multiomics < STEP2_mysql_import/05_integration_queries.sql
+
+# 10) Run additional analysis SQL used for reporting/presentation
+# Note: insert.sql currently starts with: USE epigenetic_manifest;
+# If your database is brain_multiomics, edit that line first.
+mysql -u <user> -p < STEP2_mysql_import/insert.sql
 ```
+
+## Additional SQL analysis file
+- `STEP2_mysql_import/insert.sql`: collection of exploratory and reporting SQL queries used during results interpretation and presentation.
+- Includes checks for table coverage, plasticity-gene overlap, AD vs control comparisons, and multi-layer gene-focused queries.
+- This file was added from your MySQL working directory (`/home/daria/mysql/databases_epigenetic_manifest`).
 
 ## Legacy or duplicate scripts (cleanup candidates)
 These look like earlier iterations or alternatives and are likely not in the final run order:
@@ -111,8 +132,6 @@ These look like earlier iterations or alternatives and are likely not in the fin
 - `STEP2_mysql_import/map_ATACcoordinates_genes.py`
 - `STEP2_mysql_import/map_ATACcoordinates_genes2.py`
 - `STEP2_mysql_import/02c_remap_aliases.py`
-- `STEP2_mysql_import/annot.r`
-- `STEP2_mysql_import/annott.r`
 - `STEP2_mysql_import/diagnose_methylation.py`
 - `STEP2_mysql_import/diagnose_series_matrix.py`
 
@@ -143,7 +162,7 @@ Use this flow for a clean public push:
 ```bash
 git status
 git add .
-git commit -m "Sanitize credentials and update docs"
+git commit -m "Update portfolio README and SQL analysis scripts"
 git push
 ```
 
