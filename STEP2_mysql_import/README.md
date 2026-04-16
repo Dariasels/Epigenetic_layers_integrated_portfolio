@@ -1,5 +1,5 @@
 # Brain Multi-Omics Integration Pipeline
-## Epigenetic layers in Alzheimer's Disease — Prefrontal Cortex
+## Epigenetic layers in Alzheimer's Disease - Prefrontal Cortex
 
 ---
 
@@ -15,8 +15,8 @@ prefrontal cortex samples, then filtering to genes related to **brain plasticity
 | GSE59685  | DNA Methylation   | Beta values CSV  | CpG probe IDs, need mapping via EPIC array |
 
 > **Important:** GSE33000 is a **microarray** dataset, not RNA-seq.
-> The data is already processed/normalized. You do NOT need to run alignment.
-> The `Gene` column in your file already has gene symbols — you just need to
+> The data is already processed/normalized. Do NOT need to run alignment.
+> The `Gene` column in your file already has gene symbols - just need to
 > clean and import them.
 
 ---
