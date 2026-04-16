@@ -1,0 +1,29 @@
+# Raw data — too large and not your work
+Data_files/
+metadata/
+extra_data_notthisproj/
+*_series_matrix.txt
+*.annot
+*.gz
+*.bam
+*.bam.bai
+*.bed
+*.bigWig
+*.bw
+files.zip
+
+# Credentials
+*.password
+*config*.py
+
+# Python cache
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Editor and lock artifacts
+.vscode/
+.~lock.*
+
+# Large CSVs that can be regenerated
+clean_metadata_with_internal_ids.csv
