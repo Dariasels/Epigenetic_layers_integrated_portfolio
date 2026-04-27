@@ -13,6 +13,11 @@
 -- Run after: 02_chip_tad_schema.sql
 -- Usage: mysql -u daria -p brain_multiomics < 03_hic_schema.sql
 
+DROP VIEW IF EXISTS hic_plasticity_contact_graph;
+DROP TABLE IF EXISTS hic_enhancer_links;
+DROP TABLE IF EXISTS hic_gene_links;
+DROP TABLE IF EXISTS hic_loops;
+
 -- ============================================================================
 -- HIC_LOOPS: Raw 3D contact data
 -- ============================================================================
@@ -92,7 +97,7 @@ SELECT
     hl.contact_strength,
     hl.source_dataset,
     pg.gene_symbol IS NOT NULL AS is_plasticity_gene,
-    pg.source_category,
+    pg.category AS source_category,
     CASE
         WHEN hgl.interacting_region = 'loop_end1' THEN CONCAT(hl.chrom1, ':', hl.start1, '-', hl.end1)
         WHEN hgl.interacting_region = 'loop_end2' THEN CONCAT(hl.chrom2, ':', hl.start2, '-', hl.end2)
@@ -102,21 +107,3 @@ FROM hic_gene_links hgl
 JOIN hic_loops hl ON hgl.hic_id = hl.hic_id
 LEFT JOIN plasticity_genes pg ON hgl.gene_symbol = pg.gene_symbol
 ORDER BY hl.contact_strength DESC;
-
--- ============================================================================
--- Insert index summary statistics
--- ============================================================================
-
--- Sample data insertion (run import_hic_loops.py to populate)
-INSERT IGNORE INTO hic_loops 
-    (chrom1, start1, end1, chrom2, start2, end2, contact_strength, source_dataset)
-VALUES
-    ('chr1', 1000000, 1025000, 'chr1', 2000000, 2025000, 15.5, 'placeholder'),
-    ('chr1', 1025000, 1050000, 'chr1', 1500000, 1525000, 8.2, 'placeholder');
-
--- Verify structure
-SELECT 'hic_loops' AS table_name, COUNT(*) AS row_count FROM hic_loops
-UNION ALL
-SELECT 'hic_gene_links', COUNT(*) FROM hic_gene_links
-UNION ALL
-SELECT 'hic_enhancer_links', COUNT(*) FROM hic_enhancer_links;

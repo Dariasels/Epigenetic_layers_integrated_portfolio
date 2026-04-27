@@ -78,7 +78,7 @@ def export_plasticity_genes(conn, output_dir):
     cursor.execute("""
         SELECT DISTINCT 
             gc.chrom, gc.start_pos, gc.end_pos, 
-            pg.gene_symbol, pg.source_category
+            pg.gene_symbol, pg.category
         FROM gene_coordinates gc
         JOIN plasticity_genes pg ON gc.gene_symbol = pg.gene_symbol
         WHERE gc.chrom NOT IN ('MT', 'chrM', 'Un_%')
@@ -95,7 +95,7 @@ def export_plasticity_genes(conn, output_dir):
             chrom = normalize_chrom(chrom)
             # Canonical genes get higher score
             score = 800 if category == "canonical" else 500
-            f.write(f"{chrom}\t{start:,}\t{end:,}\t{gene_sym}\t{score}\t+\n")
+            f.write(f"{chrom}\t{int(start)}\t{int(end)}\t{gene_sym}\t{score}\t+\n")
             count += 1
     
     cursor.close()
@@ -107,13 +107,13 @@ def export_atac_peaks(conn, output_dir):
     
     print("\n🔓 Exporting ATAC peaks...")
     cursor.execute("""
-        SELECT ap.chrom, ap.start_pos, ap.end_pos, ap.peak_id,
+        SELECT ap.chrom, ap.chrom_start, ap.chrom_end, ap.peak_id,
                GROUP_CONCAT(DISTINCT agl.gene_symbol SEPARATOR ';') as genes
         FROM atac_peaks ap
         LEFT JOIN atac_gene_links agl ON ap.peak_id = agl.peak_id
         WHERE ap.chrom NOT IN ('MT', 'chrM', 'Un_%')
-        GROUP BY ap.peak_id
-        ORDER BY ap.chrom, ap.start_pos
+        GROUP BY ap.chrom, ap.chrom_start, ap.chrom_end, ap.peak_id
+        ORDER BY ap.chrom, ap.chrom_start
     """)
     
     with open(f"{output_dir}/atac_peaks.bed", "w") as f:
@@ -125,7 +125,7 @@ def export_atac_peaks(conn, output_dir):
         for chrom, start, end, peak_id, genes in cursor.fetchall():
             chrom = normalize_chrom(chrom)
             genes_str = genes if genes else "."
-            f.write(f"{chrom}\t{start:,}\t{end:,}\tATAC_{peak_id}\t500\t+\t\t{genes_str}\n")
+            f.write(f"{chrom}\t{int(start)}\t{int(end)}\tATAC_{peak_id}\t500\t+\t\t{genes_str}\n")
             count += 1
     
     cursor.close()
@@ -143,7 +143,7 @@ def export_enhancers(conn, output_dir):
         FROM enhancers e
         LEFT JOIN enhancer_gene_links egl ON e.enhancer_id = egl.enhancer_id
         WHERE e.chrom NOT IN ('MT', 'chrM', 'Un_%')
-        GROUP BY e.enhancer_id
+        GROUP BY e.chrom, e.start_pos, e.end_pos, e.enhancer_id
         ORDER BY e.chrom, e.start_pos
     """)
     
@@ -158,7 +158,7 @@ def export_enhancers(conn, output_dir):
             genes_str = genes if genes else "."
             # Score based on number of linked genes
             score = min(900, 400 + (n_genes or 0) * 100)
-            f.write(f"{chrom}\t{start:,}\t{end:,}\tENH_{enh_id}\t{score}\t+\t\t{genes_str}\n")
+            f.write(f"{chrom}\t{int(start)}\t{int(end)}\tENH_{enh_id}\t{score}\t+\t\t{genes_str}\n")
             count += 1
     
     cursor.close()
@@ -196,7 +196,7 @@ def export_hic_loop_anchors(conn, output_dir):
             chrom = normalize_chrom(chrom)
             # Scale contact strength to 0-999
             score = min(999, max(100, int((strength or 1.0) * 100)))
-            f.write(f"{chrom}\t{start:,}\t{end:,}\tHIC_{hic_id}\t{score}\t+\n")
+            f.write(f"{chrom}\t{int(start)}\t{int(end)}\tHIC_{hic_id}\t{score}\t+\n")
             count += 1
     
     cursor.close()
@@ -208,17 +208,17 @@ def export_methylation_changes(conn, output_dir):
     
     print("\n🔴 Exporting methylation changes...")
     cursor.execute("""
-        SELECT DISTINCT 
-            gc.chrom, 
-            MAX(gc.start_pos - 200, 0) as start, 
+        SELECT
+            gc.chrom,
+            GREATEST(gc.start_pos - 200, 0) as start,
             gc.start_pos + 200 as end,
-            gc.gene_symbol, 
+            gc.gene_symbol,
             COUNT(*) as n_probes
         FROM gene_coordinates gc
         JOIN methylation_gene_links mgl ON gc.gene_symbol = mgl.gene_symbol
-        WHERE mgl.region_type IN ('TSS200', 'TSS1500')
+        WHERE mgl.relation IN ('TSS200', 'TSS1500')
         AND gc.chrom NOT IN ('MT', 'chrM', 'Un_%')
-        GROUP BY gc.gene_symbol
+        GROUP BY gc.chrom, gc.start_pos, gc.end_pos, gc.gene_symbol
         ORDER BY gc.chrom, gc.start_pos
     """)
     
@@ -231,7 +231,7 @@ def export_methylation_changes(conn, output_dir):
         for chrom, start, end, gene_sym, n_probes in cursor.fetchall():
             chrom = normalize_chrom(chrom)
             score = min(900, 300 + (n_probes or 1) * 50)
-            f.write(f"{chrom}\t{start:,}\t{end:,}\tMETH_{gene_sym}\t{score}\t+\n")
+            f.write(f"{chrom}\t{int(start)}\t{int(end)}\tMETH_{gene_sym}\t{score}\t+\n")
             count += 1
     
     cursor.close()
@@ -243,13 +243,16 @@ def export_integration_summary(conn, output_dir):
     
     print("\n🎯 Exporting integration summary...")
     cursor.execute("""
-        SELECT DISTINCT 
-            gc.chrom, gc.start_pos, gc.end_pos, gc.gene_symbol,
-            COUNT(DISTINCT CASE WHEN re.rna_id IS NOT NULL THEN 're' END) > 0 as has_rna,
-            COUNT(DISTINCT CASE WHEN agl.atac_id IS NOT NULL THEN 'atac' END) > 0 as has_atac,
-            COUNT(DISTINCT CASE WHEN mgl.methylation_id IS NOT NULL THEN 'meth' END) > 0 as has_meth,
-            COUNT(DISTINCT CASE WHEN egl.enhancer_id IS NOT NULL THEN 'enh' END) > 0 as has_enhancer,
-            COUNT(DISTINCT CASE WHEN hgl.hic_id IS NOT NULL THEN 'hic' END) > 0 as has_hic,
+        SELECT
+            gc.chrom,
+            gc.start_pos,
+            gc.end_pos,
+            gc.gene_symbol,
+            MAX(CASE WHEN re.expression_id IS NOT NULL THEN 1 ELSE 0 END) as has_rna,
+            MAX(CASE WHEN agl.link_id IS NOT NULL THEN 1 ELSE 0 END) as has_atac,
+            MAX(CASE WHEN mgl.link_id IS NOT NULL THEN 1 ELSE 0 END) as has_meth,
+            MAX(CASE WHEN egl.enhancer_id IS NOT NULL THEN 1 ELSE 0 END) as has_enhancer,
+            MAX(CASE WHEN hgl.hic_id IS NOT NULL THEN 1 ELSE 0 END) as has_hic,
             pg.gene_symbol IS NOT NULL as is_plasticity
         FROM gene_coordinates gc
         LEFT JOIN rna_expression re ON gc.gene_symbol = re.gene_symbol
@@ -259,7 +262,7 @@ def export_integration_summary(conn, output_dir):
         LEFT JOIN hic_gene_links hgl ON gc.gene_symbol = hgl.gene_symbol
         LEFT JOIN plasticity_genes pg ON gc.gene_symbol = pg.gene_symbol
         WHERE gc.chrom NOT IN ('MT', 'chrM', 'Un_%')
-        GROUP BY gc.gene_symbol
+        GROUP BY gc.chrom, gc.start_pos, gc.end_pos, gc.gene_symbol
         HAVING (has_rna + has_atac + has_meth) >= 2  -- Multi-layer
         ORDER BY gc.chrom, gc.start_pos
     """)
@@ -280,7 +283,7 @@ def export_integration_summary(conn, output_dir):
                 score += 200
             score = min(999, score)
             
-            f.write(f"{chrom}\t{start:,}\t{end:,}\t{gene_sym}_ML{n_layers}\t{score}\t+\n")
+            f.write(f"{chrom}\t{int(start)}\t{int(end)}\t{gene_sym}_ML{n_layers}\t{score}\t+\n")
             count += 1
     
     cursor.close()

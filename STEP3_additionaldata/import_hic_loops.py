@@ -68,18 +68,20 @@ def import_hic_bedpe(file_path, dataset_name, conn, min_contact_strength=0.0, re
     
     # Read BEDPE, auto-detect if score column exists
     try:
-        df = pd.read_csv(file_path, sep='\t', comment='#', dtype={
-            0: str, 1: int, 2: int, 3: str, 4: int, 5: int
-        })
-        
-        # Auto-detect score if 7+ columns
-        if len(df.columns) >= 7:
+        df = pd.read_csv(file_path, sep='\t', comment='#', header=None)
+
+        # Auto-detect score if 7+ columns; typical BEDPE files are headerless
+        if df.shape[1] >= 7:
+            df = df.iloc[:, :7].copy()
             df.columns = ['chrom1', 'start1', 'end1', 'chrom2', 'start2', 'end2', 'contact_strength']
             print(f"  ✓ Detected score column (contact strength)")
-        else:
+        elif df.shape[1] >= 6:
+            df = df.iloc[:, :6].copy()
             df.columns = ['chrom1', 'start1', 'end1', 'chrom2', 'start2', 'end2']
             df['contact_strength'] = 1.0
             print(f"  ✓ No score column; using default (1.0)")
+        else:
+            raise ValueError(f"Expected at least 6 BEDPE columns, found {df.shape[1]}")
     except Exception as e:
         print(f"ERROR reading {file_path}: {e}")
         return
@@ -315,7 +317,6 @@ def summary_statistics(conn):
     n_loops = cursor.fetchone()[0]
     print(f"  • Total HIC loops: {n_loops:,}")
     
-    cursor.execute("SELECT COUNT(DISTINCT dataset_index) FROM hic_loops GROUP BY source_dataset")
     cursor.execute("SELECT COUNT(DISTINCT source_dataset) FROM hic_loops")
     n_datasets = cursor.fetchone()[0]
     print(f"  • Datasets: {n_datasets}")

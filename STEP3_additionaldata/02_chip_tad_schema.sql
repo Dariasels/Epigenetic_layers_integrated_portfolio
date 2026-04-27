@@ -5,9 +5,15 @@
 USE brain_multiomics;
 
 -- Update enhancers table (was too minimal before)
--- Drop and recreate with proper columns for H3K27ac ChIP-seq peaks
+-- Drop incompatible legacy tables before recreating the new schema.
+DROP TABLE IF EXISTS hic_enhancer_links;
+DROP TABLE IF EXISTS hic_gene_links;
+DROP TABLE IF EXISTS hic_loops;
+DROP TABLE IF EXISTS tad_atac_links;
+DROP TABLE IF EXISTS tad_gene_links;
 DROP TABLE IF EXISTS enhancer_gene_links;
 DROP TABLE IF EXISTS enhancers;
+DROP TABLE IF EXISTS tads;
 
 CREATE TABLE enhancers (
     enhancer_id     INT AUTO_INCREMENT PRIMARY KEY,
@@ -37,8 +43,6 @@ CREATE TABLE enhancer_gene_links (
 );
 
 -- Update tads table (was too minimal)
-DROP TABLE IF EXISTS tads;
-
 CREATE TABLE tads (
     tad_id          INT AUTO_INCREMENT PRIMARY KEY,
     chrom           VARCHAR(10)   NOT NULL,
@@ -63,7 +67,7 @@ CREATE TABLE IF NOT EXISTS tad_gene_links (
 
 -- New bridge table: which TAD does each ATAC peak fall in?
 -- This is the key integration query: same TAD = same regulatory neighbourhood
-CREATE TABLE IF NOT EXISTS tad_atac_links (
+CREATE TABLE tad_atac_links (
     link_id         INT AUTO_INCREMENT PRIMARY KEY,
     tad_id          INT           NOT NULL,
     peak_id         INT           NOT NULL,
@@ -76,19 +80,3 @@ CREATE TABLE IF NOT EXISTS tad_atac_links (
 -- GSE102538: H3K27ac ChIP-seq, prefrontal cortex, AD vs control
 -- Cell types: NeuN+ (neurons), Pu.1+ (microglia), NeuN-/Pu.1- (OEG)
 -- ══════════════════════════════════════════════════════════════════
-
-INSERT IGNORE INTO samples (sample_id, `condition`, tissue, dataset)
-VALUES
-  ('GSM3692183', 'Alzheimer', 'prefrontal cortex', 'GSE102538'),
-  ('GSM3692184', 'Alzheimer', 'prefrontal cortex', 'GSE102538'),
-  ('GSM3692185', 'Alzheimer', 'prefrontal cortex', 'GSE102538'),
-  ('GSM3692186', 'Control',   'prefrontal cortex', 'GSE102538'),
-  ('GSM3692187', 'Control',   'prefrontal cortex', 'GSE102538'),
-  ('GSM3692188', 'Control',   'prefrontal cortex', 'GSE102538');
--- Note: add all GSM IDs from the series — these are examples.
--- Run the import script which will auto-insert them from the broadPeak files.
-
--- Verify
-SELECT dataset, `condition`, COUNT(*) FROM samples
-WHERE dataset = 'GSE102538'
-GROUP BY dataset, `condition`;
