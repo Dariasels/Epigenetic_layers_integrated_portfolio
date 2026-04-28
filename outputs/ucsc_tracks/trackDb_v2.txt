@@ -42,7 +42,20 @@ visibility dense
 priority 3
 
 # ============================================================================
-# LAYER 4: DNA Methylation Changes at Promoters (376 regions)
+# LAYER 4: CpG Probe-Level Methylation Sites (474K probes)
+# ============================================================================
+track cpg_probes
+shortLabel CpG Probes
+longLabel Illumina 450K CpG probe locations - 474,119 probes
+description Probe-level CpG sites from the Illumina 450K annotation. This track shows the actual CpG positions, which provides denser methylation context than promoter-only windows.
+type bigBed 6
+bigDataUrl cpg_probes.bb
+color 120,120,120
+visibility dense
+priority 4
+
+# ============================================================================
+# LAYER 5: DNA Methylation Changes at Promoters (376 regions)
 # ============================================================================
 track methylation_promoters
 shortLabel Promoter Methylation
@@ -52,7 +65,7 @@ type bigBed 6
 bigDataUrl methylation_promoters.bb
 color 200,0,0
 visibility dense
-priority 4
+priority 5
 
 # ============================================================================
 # Summary Statistics
