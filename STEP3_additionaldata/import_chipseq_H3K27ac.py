@@ -82,17 +82,26 @@ def import_peaks(filepath, sample_id, cell_type, conn):
             if not line or line.startswith("#") or line.startswith("track"):
                 continue
 
-            cols = line.split("\t")
-            if len(cols) < 6:
+            cols = line.split()
+            if len(cols) < 3:
                 continue
 
             chrom       = cols[0].strip()
             start_pos   = int(cols[1])
             end_pos     = int(cols[2])
-            peak_name   = cols[3] if len(cols) > 3 else ""
+            peak_name   = cols[3] if len(cols) > 3 else f"{sample_id}_{start_pos}_{end_pos}"
             signal_val  = float(cols[6]) if len(cols) > 6 else None
             p_val       = float(cols[7]) if len(cols) > 7 else None
             q_val       = float(cols[8]) if len(cols) > 8 else None
+
+            # GEO-style file often only has chrom/start/end/name.
+            # Use the BED score field if present, otherwise leave NULL.
+            if len(cols) == 4:
+                try:
+                    signal_val = float(cols[3])
+                except ValueError:
+                    signal_val = None
+                peak_name = f"{sample_id}_{start_pos}_{end_pos}"
 
             # Only standard chromosomes
             if not chrom.startswith("chr"):
