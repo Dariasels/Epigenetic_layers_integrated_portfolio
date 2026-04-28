@@ -1,0 +1,6 @@
+hub AlzheimersEpigenetics_AD_Aging_v2
+shortLabel Brain Plasticity - AD/Aging Multi-Omics
+longLabel Alzheimers Disease & Aging Brain Multi-Omics Integration (Prefrontal Cortex)
+genomesFile genomes_v2.txt
+email your_email@example.com
+descriptionUrl https://github.com/Dariasels/Epigenetic_layers_integrated_portfolio

@@ -42,6 +42,10 @@ Main hub registry file. Contains:
 - Pointer to genome list (`genomes.txt`)
 - Contact information and project URL
 
+### **hub_v2.txt**
+Versioned hub registry file that points to the UCSC-compatible bigBed tracks.
+
+
 ### **genomes.txt**
 Genome definition file. Specifies:
 - Genome assembly: `hg38` (GRCh38)
@@ -50,9 +54,12 @@ Genome definition file. Specifies:
 ### **trackDb.txt**
 Track database with full track definitions:
 - Track names, descriptions, and metadata
-- BigDataUrl pointers to BED files
+- BigDataUrl pointers to bigBed files
 - Visualization parameters (colors, visibility)
 - Priority ordering for display
+
+### **trackDb_v2.txt**
+Versioned track database that points to the bigBed files generated from the BED sources.
 
 ## Using with UCSC Genome Browser
 
@@ -61,7 +68,7 @@ Track database with full track definitions:
 2. In UCSC Genome Browser → **Manage Custom Tracks** → **Track Hubs**
 3. Paste URL to `hub.txt`:  
    ```
-   https://github.com/Dariasels/Epigenetic_layers_integrated_portfolio/raw/main/outputs/ucsc_tracks/hub.txt
+  https://github.com/Dariasels/Epigenetic_layers_integrated_portfolio/raw/main/outputs/ucsc_tracks/hub_v2.txt
    ```
 4. Click "Add Hub"
 
@@ -72,16 +79,10 @@ Track database with full track definitions:
    ```
 2. Upload via UCSC Browser → **Manage Custom Tracks** → Local file upload
 
-### Option C: Convert to bigBed for Optimization
-For better performance with large datasets, convert BED to bigBed:
+### Option C: bigBed optimization
+The hub now uses UCSC bigBed files for compatibility and faster loading:
 ```bash
-# Install bedToBigBed (UCSC Kent tools)
-bedToBigBed -type=bed9 atac_peaks.bed hg38.chrom.sizes atac_peaks.bb
-bedToBigBed -type=bed9 enhancers_h3k27ac.bed hg38.chrom.sizes enhancers.bb
-bedToBigBed -type=bed5 plasticity_genes.bed hg38.chrom.sizes plasticity_genes.bb
-bedToBigBed -type=bed6 methylation_promoters.bed hg38.chrom.sizes methylation.bb
-
-# Update trackDb.txt to point to .bb files instead of .bed
+python build_ucsc_bigbeds.py
 ```
 
 ## Data Integration Statistics

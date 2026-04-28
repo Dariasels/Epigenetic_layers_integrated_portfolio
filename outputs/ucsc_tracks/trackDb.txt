@@ -9,8 +9,8 @@
 track plasticity_genes
 shortLabel Plasticity Genes
 longLabel Brain plasticity genes - curated list of 365 genes
-type bed
-bigDataUrl plasticity_genes.bed
+type bigBed 6
+bigDataUrl plasticity_genes.bb
 color 100,149,237
 visibility pack
 priority 1
@@ -22,8 +22,8 @@ track atac_peaks
 shortLabel Open Chromatin (ATAC)
 longLabel ATAC-seq open chromatin peaks - 370,494 peaks
 description Accessible chromatin from ATAC-seq (GSE129040). Peaks enriched for regulatory elements. Associated genes shown in 9th column.
-type bed
-bigDataUrl atac_peaks.bed
+type bigBed 6
+bigDataUrl atac_peaks.bb
 color 0,176,80
 visibility dense
 priority 2
@@ -35,8 +35,8 @@ track enhancers_h3k27ac
 shortLabel Active Enhancers (H3K27ac)
 longLabel H3K27ac ChIP-seq enhancers - 182,330 active enhancers
 description H3K27ac-marked active enhancers from ChIP-seq (GSE102538). Score indicates number of linked genes. Associated genes shown in 9th column.
-type bed
-bigDataUrl enhancers_h3k27ac.bed
+type bigBed 6
+bigDataUrl enhancers_h3k27ac.bb
 color 255,102,0
 visibility dense
 priority 3
@@ -48,8 +48,8 @@ track methylation_promoters
 shortLabel Promoter Methylation
 longLabel CpG methylation at promoters - 376 regions
 description Beta-normalized CpG methylation at gene promoters (TSS±200bp to ±1500bp). Methylation data from 450K array (GSE59685). Score weighted by probe count.
-type bed
-bigDataUrl methylation_promoters.bed
+type bigBed 6
+bigDataUrl methylation_promoters.bb
 color 200,0,0
 visibility dense
 priority 4
