@@ -30,20 +30,20 @@ priority 2
 
 track atac_peaks_alzheimer
 shortLabel Open Chromatin (ATAC) - Alzheimer's
-longLabel ATAC-seq peaks in Alzheimer's Disease samples (n=75,635 peaks)
+longLabel ATAC-seq peaks in Alzheimer's Disease samples (n=72,656 peaks)
 description Accessible chromatin peaks from Alzheimer's disease brain tissue (prefrontal cortex). Analysis based on 4 Alzheimer's samples.
-type bed 6
-bigDataUrl atac_peaks_alzheimer.bed
+type bigBed 6
+bigDataUrl atac_peaks_alzheimer.bb
 color 0,100,50
 visibility dense
 priority 2.1
 
 track atac_peaks_control
 shortLabel Open Chromatin (ATAC) - Control
-longLabel ATAC-seq peaks in cognitively normal control samples (n=294,873 peaks)
-description Accessible chromatin peaks from  cognitively normal aged control brain tissue (prefrontal cortex). Analysis based on 4 aged control samples.
-type bed 6
-bigDataUrl atac_peaks_control.bed
+longLabel ATAC-seq peaks in cognitively normal control samples (n=289,282 peaks)
+description Accessible chromatin peaks from cognitively normal aged control brain tissue (prefrontal cortex). Analysis based on 4 aged control samples.
+type bigBed 6
+bigDataUrl atac_peaks_control.bb
 color 0,150,80
 visibility dense
 priority 2.2
@@ -52,14 +52,43 @@ priority 2.2
 # LAYER 3: Active Enhancers - H3K27ac ChIP-seq (182K enhancers)
 # ============================================================================
 track enhancers_h3k27ac
-shortLabel Active Enhancers (H3K27ac)
-longLabel H3K27ac ChIP-seq enhancers - 182,330 active enhancers
+shortLabel Active Enhancers (H3K27ac) - All
+longLabel H3K27ac ChIP-seq enhancers - 182,330 active enhancers (all samples averaged)
 description H3K27ac-marked active enhancers from ChIP-seq (GSE102538). Score indicates number of linked genes. Associated genes shown in 9th column.
 type bigBed 6
 bigDataUrl enhancers_h3k27ac.bb
 color 255,102,0
 visibility dense
 priority 3
+
+compositeTrack on
+shortLabel H3K27ac Enhancers by Condition
+longLabel Active Enhancers (H3K27ac) - Alzheimer's vs Control
+type bigBed 6
+visibility pack
+priority 3.1
+
+track enhancers_h3k27ac_alzheimer
+parent enhancers_h3k27ac on
+shortLabel H3K27ac - Alzheimer's
+longLabel H3K27ac enhancers in Alzheimer's Disease samples
+description Active enhancers in Alzheimer's disease brain tissue
+type bigBed 6
+bigDataUrl enhancers_h3k27ac_alzheimer.bb
+color 255,80,0
+visibility dense
+priority 3.2
+
+track enhancers_h3k27ac_control
+parent enhancers_h3k27ac on
+shortLabel H3K27ac - Control
+longLabel H3K27ac enhancers in cognitively normal control samples
+description Active enhancers in aged control brain tissue
+type bigBed 6
+bigDataUrl enhancers_h3k27ac_control.bb
+color 255,150,100
+visibility dense
+priority 3.3
 
 # ============================================================================
 # LAYER 4: CpG Probe-Level Methylation Sites (474K probes)
@@ -78,8 +107,8 @@ priority 4
 # LAYER 5: CpG Methylation Signal (per-site beta values)
 # ============================================================================
 track cpg_methylation_signal
-shortLabel CpG Methylation
-longLabel Mean CpG methylation signal - per-site beta values
+shortLabel CpG Methylation - All
+longLabel Mean CpG methylation signal - per-site beta values (all samples averaged)
 description Per-CpG methylation signal built from mean beta values across available samples. Higher scores indicate higher methylation.
 type bigWig
 bigDataUrl cpg_methylation_signal.bw
@@ -91,6 +120,36 @@ autoScale off
 windowingFunction mean
 maxHeightPixels 120:60:20
 priority 5
+
+track cpg_methylation_signal_alzheimer
+shortLabel CpG Methylation - Alzheimer's
+longLabel Mean CpG methylation in Alzheimer's Disease samples
+description Per-CpG methylation signal in Alzheimer's disease brain tissue
+type bigWig
+bigDataUrl cpg_methylation_signal_alzheimer.bw
+color 180,0,20
+visibility full
+graphTypeDefault bar
+viewLimits 0:1
+autoScale off
+windowingFunction mean
+maxHeightPixels 120:60:20
+priority 5.1
+
+track cpg_methylation_signal_control
+shortLabel CpG Methylation - Control
+longLabel Mean CpG methylation in cognitively normal control samples
+description Per-CpG methylation signal in aged control brain tissue
+type bigWig
+bigDataUrl cpg_methylation_signal_control.bw
+color 200,100,100
+visibility full
+graphTypeDefault bar
+viewLimits 0:1
+autoScale off
+windowingFunction mean
+maxHeightPixels 120:60:20
+priority 5.2
 
 # ============================================================================
 # LAYER 6: DNA Methylation Changes at Promoters (376 regions)
