@@ -19,14 +19,34 @@ priority 1
 # LAYER 2: Open Chromatin - ATAC-seq Peaks (370K peaks)
 # ============================================================================
 track atac_peaks
-shortLabel Open Chromatin (ATAC)
-longLabel ATAC-seq open chromatin peaks - 370,494 peaks
+shortLabel Open Chromatin (ATAC) - All
+longLabel ATAC-seq open chromatin peaks - 370,494 peaks (all samples averaged)
 description Accessible chromatin from ATAC-seq (GSE129040). Peaks enriched for regulatory elements. Associated genes shown in 9th column.
 type bigBed 6
 bigDataUrl atac_peaks.bb
 color 0,176,80
-visibility dense
+visibility pack
 priority 2
+
+track atac_peaks_alzheimer
+shortLabel Open Chromatin (ATAC) - Alzheimer's
+longLabel ATAC-seq peaks in Alzheimer's Disease samples (n=75,635 peaks)
+description Accessible chromatin peaks from Alzheimer's disease brain tissue (prefrontal cortex). Analysis based on 4 Alzheimer's samples.
+type bed 6
+bigDataUrl atac_peaks_alzheimer.bed
+color 0,100,50
+visibility dense
+priority 2.1
+
+track atac_peaks_control
+shortLabel Open Chromatin (ATAC) - Control
+longLabel ATAC-seq peaks in cognitively normal control samples (n=294,873 peaks)
+description Accessible chromatin peaks from  cognitively normal aged control brain tissue (prefrontal cortex). Analysis based on 4 aged control samples.
+type bed 6
+bigDataUrl atac_peaks_control.bed
+color 0,150,80
+visibility dense
+priority 2.2
 
 # ============================================================================
 # LAYER 3: Active Enhancers - H3K27ac ChIP-seq (182K enhancers)
