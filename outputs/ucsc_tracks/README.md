@@ -33,6 +33,13 @@ This directory contains UCSC Genome Browser compatible track files for the **Alz
 - **Score:** Weighted by number of CpG probes at each promoter
 - **Relevance:** Promoter hypermethylation associated with silencing; hypomethylation associated with activation
 
+### 5. **cpg_methylation_signal.bw** (per-site beta values)
+- **Source:** GSE59685 methylation table
+- **Content:** One 1-bp feature per CpG probe, scored by mean beta value across available samples
+- **Color:** Red (200,0,0)
+- **Score:** $0$–$1000$ scaled from mean beta value
+- **Use:** Shows methylation intensity at each CpG site rather than only promoter windows
+
 ## Hub Configuration Files
 
 ### **hub.txt**
@@ -42,7 +49,7 @@ Main hub registry file. Contains:
 - Pointer to genome list (`genomes.txt`)
 - Contact information and project URL
 
-### **hub_v2.txt**
+### **hub_v3.txt**
 Versioned hub registry file that points to the UCSC-compatible bigBed tracks.
 
 
@@ -58,7 +65,7 @@ Track database with full track definitions:
 - Visualization parameters (colors, visibility)
 - Priority ordering for display
 
-### **trackDb_v2.txt**
+### **trackDb_v3.txt**
 Versioned track database that points to the bigBed files generated from the BED sources.
 
 ## Using with UCSC Genome Browser
@@ -68,7 +75,7 @@ Versioned track database that points to the bigBed files generated from the BED 
 2. In UCSC Genome Browser → **Manage Custom Tracks** → **Track Hubs**
 3. Paste URL to `hub.txt`:  
    ```
-  https://github.com/Dariasels/Epigenetic_layers_integrated_portfolio/raw/main/outputs/ucsc_tracks/hub_v2.txt
+  https://github.com/Dariasels/Epigenetic_layers_integrated_portfolio/raw/main/outputs/ucsc_tracks/hub_v3.txt
    ```
 4. Click "Add Hub"
 
@@ -92,6 +99,7 @@ python build_ucsc_bigbeds.py
 | **Plasticity Genes** | 365 | - | Curated literature |
 | **ATAC-seq** | 370,494 | 16,800+ | GSE129040 |
 | **H3K27ac Enhancers** | 182,330 | 18,200+ | GSE102538/GSE143271 |
+| **CpG Methylation Signal** | per-site | 15,000+ | GSE59685 |
 | **Methylation** | 376 | 365 | GSE59685 |
 | **Multi-layer** | ~900 | - | 2+ data types |
 
