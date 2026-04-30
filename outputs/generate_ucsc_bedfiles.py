@@ -43,7 +43,7 @@ from pathlib import Path
 DB_CONFIG = {
     "host": "localhost",
     "user": "daria",
-    "password": os.getenv("DB_PASSWORD", ""),
+    "password": "simba",
     "database": "brain_multiomics"
 }
 
@@ -320,56 +320,63 @@ databases hg19
     trackdb_content = """
 # Plasticity Genes (core gene list)
 track plasticity_genes
-type bed 5
 shortLabel Plasticity Genes
 longLabel Brain plasticity genes curated from literature (365 genes)
-visibility pack
+type bigBed 6
+bigDataUrl plasticity_genes.bb
+itemRgb on
 color 100,149,237
+visibility pack
 priority 1
 
 # ATAC-seq (open chromatin)
 track atac_peaks
-type bed 9
 shortLabel ATAC Peaks
 longLabel Open chromatin regions (ATAC-seq, 4603 peaks, GSE129040)
-visibility pack
+type bigBed 6
+bigDataUrl atac_peaks.bb
 color 0,176,80
+visibility pack
 priority 2
 
 # H3K27ac Enhancers
 track enhancers_h3k27ac
-type bed 9
 shortLabel H3K27ac Enhancers
 longLabel Active enhancers from H3K27ac ChIP-seq (GSE102538)
-visibility pack
+type bigBed 6
+bigDataUrl enhancers_h3k27ac.bb
 color 255,102,0
+visibility pack
 priority 3
 
 # HIC 3D contacts
 track hic_loop_anchors
-type bed 6
 shortLabel HIC Loop Anchors
 longLabel 3D chromatin contact loop endpoints
-visibility pack
+type bigBed 6
+bigDataUrl hic_loop_anchors.bb
 color 153,51,153
+visibility pack
 priority 4
 
 # Methylation changes
 track methylation_promoters
-type bed 6
 shortLabel Methylation Changes
 longLabel Promoter methylation regions (TSS200, TSS1500)
-visibility pack
+type bigBed 6
+bigDataUrl methylation_promoters.bb
 color 200,0,0
+visibility pack
 priority 5
 
 # Integration summary
 track integration_summary
-type bed 6
 shortLabel Multi-Layer Integration
 longLabel Genes with evidence in 2+ data types (RNA + ATAC + Methylation ± Enhancers ± HIC)
-visibility pack
+type bigBed 6
+bigDataUrl integration_summary.bb
 color 0,100,200
+visibility pack
 priority 6
 """
     
