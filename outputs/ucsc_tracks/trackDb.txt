@@ -64,7 +64,7 @@ shortLabel CpG Methylation
 longLabel Mean CpG methylation signal - per-site beta values
 description Per-CpG methylation signal built from mean beta values across available samples. Higher scores indicate higher methylation.
 type bigWig
-bigDataUrl cpg_methylation_signal.bw
+bigDataUrl cpg_methylation_signal_hg38.bw
 color 200,0,0
 visibility dense
 graphTypeDefault bar
