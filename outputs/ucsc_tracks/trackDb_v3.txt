@@ -85,7 +85,7 @@ description Per-CpG methylation signal. CLICK any site to see beta value and pos
 type bigBed 6
 bigDataUrl cpg_methylation_signal_v4_hg38.bb
 color 200,0,0
-visibility pack
+visibility hide
 scoreFilter 0 1000
 colorByScore 200 100 0 0 200 0
 maxItems 100000
@@ -99,7 +99,7 @@ description Visual signal-only bigWig for CpG methylation. Hover to see numeric 
 type bigWig
 bigDataUrl cpg_methylation_signal_v4_hg38.bw
 color 200,0,0
-visibility full
+visibility hide
 graphTypeDefault bar
 viewLimits 0:1
 autoScale off
@@ -114,7 +114,7 @@ description Per-CpG methylation in AD brain tissue. CLICK any site to see beta v
 type bigBed 6
 bigDataUrl cpg_methylation_signal_alzheimer_v4_hg38.bb
 color 180,0,20
-visibility pack
+visibility hide
 scoreFilter 0 1000
 colorByScore 180 100 0 0 150 0
 maxItems 100000
@@ -128,7 +128,7 @@ description Visual bigWig for AD methylation signal.
 type bigWig
 bigDataUrl cpg_methylation_signal_alzheimer_v4_hg38.bw
 color 180,0,20
-visibility full
+visibility hide
 graphTypeDefault bar
 viewLimits 0:1
 autoScale off
@@ -143,7 +143,7 @@ description Per-CpG methylation in aged normal brain tissue. CLICK any site to s
 type bigBed 6
 bigDataUrl cpg_methylation_signal_control_v4_hg38.bb
 color 200,100,100
-visibility pack
+visibility hide
 scoreFilter 0 1000
 colorByScore 200 150 100 100 150 100
 maxItems 100000
