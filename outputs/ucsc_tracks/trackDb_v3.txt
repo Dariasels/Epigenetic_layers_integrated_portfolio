@@ -91,6 +91,22 @@ colorByScore 200 100 0 0 200 0
 maxItems 100000
 priority 5
 
+# Parallel signal track (bigWig) for visual signal-only view (no name values)
+track cpg_methylation_signal_wig
+shortLabel CpG Methylation (signal)
+longLabel CpG methylation signal (graph view, no name/value labels)
+description Visual signal-only bigWig for CpG methylation. Hover to see numeric value tooltip.
+type bigWig
+bigDataUrl cpg_methylation_signal_v4_hg38.bw
+color 200,0,0
+visibility full
+graphTypeDefault bar
+viewLimits 0:1
+autoScale off
+windowingFunction mean
+maxHeightPixels 130:65:20
+priority 5.5
+
 track cpg_methylation_signal_alzheimer
 shortLabel CpG Methylation - Alzheimer's
 longLabel Mean CpG methylation in Alzheimer's Disease samples (0.0-1.0)
@@ -104,6 +120,22 @@ colorByScore 180 100 0 0 150 0
 maxItems 100000
 priority 5.1
 
+# Parallel signal track (bigWig) for Alzheimer's signal-only view
+track cpg_methylation_signal_alzheimer_wig
+shortLabel CpG Methylation AD (signal)
+longLabel CpG methylation signal in AD samples (graph view)
+description Visual bigWig for AD methylation signal.
+type bigWig
+bigDataUrl cpg_methylation_signal_alzheimer_v4_hg38.bw
+color 180,0,20
+visibility full
+graphTypeDefault bar
+viewLimits 0:1
+autoScale off
+windowingFunction mean
+maxHeightPixels 130:65:20
+priority 5.6
+
 track cpg_methylation_signal_control
 shortLabel CpG Methylation - Control
 longLabel Mean CpG methylation in control samples (0.0-1.0)
@@ -116,6 +148,22 @@ scoreFilter 0 1000
 colorByScore 200 150 100 100 150 100
 maxItems 100000
 priority 5.2
+
+# Parallel signal track (bigWig) for Control signal-only view
+track cpg_methylation_signal_control_wig
+shortLabel CpG Methylation Control (signal)
+longLabel CpG methylation signal in control samples (graph view)
+description Visual bigWig for control methylation signal.
+type bigWig
+bigDataUrl cpg_methylation_signal_control_v4_hg38.bw
+color 200,100,100
+visibility full
+graphTypeDefault bar
+viewLimits 0:1
+autoScale off
+windowingFunction mean
+maxHeightPixels 130:65:20
+priority 5.7
 
 # ============================================================================
 # LAYER 6: DNA Methylation Changes at Promoters (376 regions)
