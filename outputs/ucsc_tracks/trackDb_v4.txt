@@ -91,7 +91,9 @@ graphTypeDefault bar
 viewLimits 0:1
 autoScale off
 windowingFunction mean
-maxHeightPixels 120:60:20
+maxHeightPixels 130:65:20
+yLineOnOff on
+gridDefault on
 priority 5
 
 track cpg_methylation_signal_alzheimer
@@ -106,7 +108,9 @@ graphTypeDefault bar
 viewLimits 0:1
 autoScale off
 windowingFunction mean
-maxHeightPixels 120:60:20
+maxHeightPixels 130:65:20
+yLineOnOff on
+gridDefault on
 priority 5.1
 
 track cpg_methylation_signal_control
@@ -121,7 +125,9 @@ graphTypeDefault bar
 viewLimits 0:1
 autoScale off
 windowingFunction mean
-maxHeightPixels 120:60:20
+maxHeightPixels 130:65:20
+yLineOnOff on
+gridDefault on
 priority 5.2
 
 # ============================================================================

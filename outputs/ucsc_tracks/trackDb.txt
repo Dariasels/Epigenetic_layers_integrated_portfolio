@@ -71,7 +71,9 @@ graphTypeDefault bar
 viewLimits 0:1
 autoScale off
 windowingFunction mean
-maxHeightPixels 80:40:10
+maxHeightPixels 100:50:15
+yLineOnOff on
+gridDefault on
 priority 5
 
 # ============================================================================
