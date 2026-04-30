@@ -1,5 +1,3 @@
-track type=bedGraph name="CpG Methylation hg38" description="Lifted hg19->hg38"
-chr1	2049777	2049778	0.2882
 chr1	2049828	2049829	0.3092
 chr1	2049830	2049831	0.2269
 chr1	2050108	2050109	0.2168
