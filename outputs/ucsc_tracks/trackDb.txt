@@ -12,6 +12,7 @@ longLabel Brain plasticity genes - curated list of 365 genes
 type bigBed 6
 bigDataUrl plasticity_genes.bb
 itemRgb on
+showLabels on
 color 100,149,237
 visibility full
 priority 1
