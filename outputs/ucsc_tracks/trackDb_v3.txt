@@ -80,53 +80,41 @@ priority 4
 # ============================================================================
 track cpg_methylation_signal
 shortLabel CpG Methylation - All
-longLabel Mean CpG methylation signal - per-site beta values (all samples averaged)
-description Per-CpG methylation signal built from mean beta values across available samples. Higher scores indicate higher methylation. Hover over bars to see exact values (0.0-1.0).
-type bigWig
-bigDataUrl cpg_methylation_signal_v4_hg38.bw
+longLabel Mean CpG methylation signal - all samples (0.0-1.0 beta value)
+description Per-CpG methylation signal. CLICK any site to see beta value and position. Color intensity indicates methylation level.
+type bigBed 6
+bigDataUrl cpg_methylation_signal_v4_hg38.bb
 color 200,0,0
-visibility full
-graphTypeDefault bar
-viewLimits 0:1
-autoScale off
-windowingFunction mean
-maxHeightPixels 130:65:20
-yLineOnOff on
-gridDefault on
+visibility pack
+scoreFilter 0 1000
+colorByScore 200 100 0 0 200 0
+maxItems 100000
 priority 5
 
 track cpg_methylation_signal_alzheimer
 shortLabel CpG Methylation - Alzheimer's
-longLabel Mean CpG methylation in Alzheimer's Disease samples
-description Per-CpG methylation signal in Alzheimer's disease brain tissue. Values shown when zoomed in.
-type bigWig
-bigDataUrl cpg_methylation_signal_alzheimer_v4_hg38.bw
+longLabel Mean CpG methylation in Alzheimer's Disease samples (0.0-1.0)
+description Per-CpG methylation in AD brain tissue. CLICK any site to see beta value. Color indicates methylation level.
+type bigBed 6
+bigDataUrl cpg_methylation_signal_alzheimer_v4_hg38.bb
 color 180,0,20
-visibility full
-graphTypeDefault bar
-viewLimits 0:1
-autoScale off
-windowingFunction mean
-maxHeightPixels 130:65:20
-yLineOnOff on
-gridDefault on
+visibility pack
+scoreFilter 0 1000
+colorByScore 180 100 0 0 150 0
+maxItems 100000
 priority 5.1
 
 track cpg_methylation_signal_control
 shortLabel CpG Methylation - Control
-longLabel Mean CpG methylation in cognitively normal control samples
-description Per-CpG methylation signal in aged control brain tissue. Values shown when zoomed in.
-type bigWig
-bigDataUrl cpg_methylation_signal_control_v4_hg38.bw
+longLabel Mean CpG methylation in control samples (0.0-1.0)
+description Per-CpG methylation in aged normal brain tissue. CLICK any site to see beta value. Color indicates methylation level.
+type bigBed 6
+bigDataUrl cpg_methylation_signal_control_v4_hg38.bb
 color 200,100,100
-visibility full
-graphTypeDefault bar
-viewLimits 0:1
-autoScale off
-windowingFunction mean
-maxHeightPixels 130:65:20
-yLineOnOff on
-gridDefault on
+visibility pack
+scoreFilter 0 1000
+colorByScore 200 150 100 100 150 100
+maxItems 100000
 priority 5.2
 
 # ============================================================================
