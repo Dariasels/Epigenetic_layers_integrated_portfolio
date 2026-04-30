@@ -99,7 +99,7 @@ description Visual signal-only bigWig for CpG methylation. Hover to see numeric 
 type bigWig
 bigDataUrl cpg_methylation_signal_v4_hg38.bw
 color 200,0,0
-visibility hide
+visibility full
 graphTypeDefault bar
 viewLimits 0:1
 autoScale off
@@ -128,7 +128,7 @@ description Visual bigWig for AD methylation signal.
 type bigWig
 bigDataUrl cpg_methylation_signal_alzheimer_v4_hg38.bw
 color 180,0,20
-visibility hide
+visibility full
 graphTypeDefault bar
 viewLimits 0:1
 autoScale off
