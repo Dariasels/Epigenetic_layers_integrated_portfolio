@@ -81,15 +81,14 @@ priority 4
 track cpg_methylation_signal
 shortLabel CpG Methylation - All
 longLabel Mean CpG methylation signal - per-site beta values (all samples averaged)
-description Per-CpG methylation signal built from mean beta values across available samples. Higher scores indicate higher methylation.
-type bigWig
-bigDataUrl cpg_methylation_signal.bw
+description Per-CpG methylation signal built from mean beta values across available samples. Higher scores indicate higher methylation. Values shown when zoomed in.
+type bedGraph
+bigDataUrl cpg_methylation_signal_v4_hg38.bedGraph
 color 200,0,0
 visibility full
 graphTypeDefault bar
 viewLimits 0:1
 autoScale off
-windowingFunction mean
 maxHeightPixels 130:65:20
 yLineOnOff on
 gridDefault on
@@ -98,15 +97,14 @@ priority 5
 track cpg_methylation_signal_alzheimer
 shortLabel CpG Methylation - Alzheimer's
 longLabel Mean CpG methylation in Alzheimer's Disease samples
-description Per-CpG methylation signal in Alzheimer's disease brain tissue
-type bigWig
-bigDataUrl cpg_methylation_signal_alzheimer.bw
+description Per-CpG methylation signal in Alzheimer's disease brain tissue. Values shown when zoomed in.
+type bedGraph
+bigDataUrl cpg_methylation_signal_alzheimer_v4_hg38.bedGraph
 color 180,0,20
 visibility full
 graphTypeDefault bar
 viewLimits 0:1
 autoScale off
-windowingFunction mean
 maxHeightPixels 130:65:20
 yLineOnOff on
 gridDefault on
@@ -115,15 +113,14 @@ priority 5.1
 track cpg_methylation_signal_control
 shortLabel CpG Methylation - Control
 longLabel Mean CpG methylation in cognitively normal control samples
-description Per-CpG methylation signal in aged control brain tissue
-type bigWig
-bigDataUrl cpg_methylation_signal_control.bw
+description Per-CpG methylation signal in aged control brain tissue. Values shown when zoomed in.
+type bedGraph
+bigDataUrl cpg_methylation_signal_control_v4_hg38.bedGraph
 color 200,100,100
 visibility full
 graphTypeDefault bar
 viewLimits 0:1
 autoScale off
-windowingFunction mean
 maxHeightPixels 130:65:20
 yLineOnOff on
 gridDefault on
