@@ -55,7 +55,25 @@ visibility dense
 priority 4
 
 # ============================================================================
-# LAYER 5: DNA Methylation Changes at Promoters (376 regions)
+# LAYER 5: CpG Methylation Signal (per-site beta values)
+# ============================================================================
+track cpg_methylation_signal
+shortLabel CpG Methylation
+longLabel Mean CpG methylation signal - per-site beta values
+description Per-CpG methylation signal built from mean beta values across available samples. Higher scores indicate higher methylation.
+type bigWig
+bigDataUrl cpg_methylation_signal.bw
+color 200,0,0
+visibility dense
+graphTypeDefault bar
+viewLimits 0:1
+autoScale off
+windowingFunction mean
+maxHeightPixels 80:40:10
+priority 5
+
+# ============================================================================
+# LAYER 6: DNA Methylation Changes at Promoters (376 regions)
 # ============================================================================
 track methylation_promoters
 shortLabel Promoter Methylation
@@ -65,7 +83,7 @@ type bigBed 6
 bigDataUrl methylation_promoters.bb
 color 200,0,0
 visibility dense
-priority 5
+priority 6
 
 # ============================================================================
 # Summary Statistics
@@ -74,6 +92,7 @@ priority 5
 #   - Plasticity genes:        365 genes (canonical: curated, non-canonical: literature)
 #   - ATAC peaks:              370,494 regions (open chromatin)
 #   - H3K27ac enhancers:       182,330 regions (active regulatory elements)
+#   - CpG methylation signal:  per-site beta values (mean across samples)
 #   - Methylation promoters:   376 regions (promoter hypermethylation/hypomethylation)
 #
 # Samples:

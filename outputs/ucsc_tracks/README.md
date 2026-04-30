@@ -75,7 +75,7 @@ Versioned track database that points to the bigBed files generated from the BED 
 2. In UCSC Genome Browser → **Manage Custom Tracks** → **Track Hubs**
 3. Paste URL to `hub.txt`:  
    ```
-  https://github.com/Dariasels/Epigenetic_layers_integrated_portfolio/raw/main/outputs/ucsc_tracks/hub_v3.txt
+  https://raw.githubusercontent.com/Dariasels/Epigenetic_layers_integrated_portfolio/main/outputs/ucsc_tracks/hub_v4.txt
    ```
 4. Click "Add Hub"
 
