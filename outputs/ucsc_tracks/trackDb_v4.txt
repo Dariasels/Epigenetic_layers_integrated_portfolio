@@ -71,7 +71,7 @@ shortLabel CpG Probes
 longLabel Illumina 450K CpG probe locations - 474,119 probes
 description Probe-level CpG sites from the Illumina 450K annotation. This track shows the actual CpG positions, which provides denser methylation context than promoter-only windows.
 type bigBed 6
-bigDataUrl cpg_probes.bb
+bigDataUrl cpg_probes_hg38.bb
 color 120,120,120
 visibility dense
 priority 4
