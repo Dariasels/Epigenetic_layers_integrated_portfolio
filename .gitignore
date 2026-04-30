@@ -7,10 +7,16 @@ extra_data_notthisproj/
 *.gz
 *.bam
 *.bam.bai
+files.zip
+
+# Exclude most BED/bigWig files EXCEPT those in UCSC tracks directory
 *.bed
+!outputs/ucsc_tracks/*.bed
+!outputs/ucsc_tracks/*.bed6
 *.bigWig
 *.bw
-files.zip
+!outputs/ucsc_tracks/*.bw
+!outputs/ucsc_tracks/*.bb
 
 # Credentials
 *.password
