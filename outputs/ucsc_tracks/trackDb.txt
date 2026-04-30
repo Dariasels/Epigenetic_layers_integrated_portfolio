@@ -62,14 +62,15 @@ priority 4
 track cpg_methylation_signal
 shortLabel CpG Methylation
 longLabel Mean CpG methylation signal - per-site beta values
-description Per-CpG methylation signal built from mean beta values across available samples. Higher scores indicate higher methylation. Values shown when zoomed in.
-type bedGraph
-bigDataUrl cpg_methylation_signal_hg38.bedGraph
+description Per-CpG methylation signal built from mean beta values across available samples. Higher scores indicate higher methylation. Hover over bars to see exact values (0.0-1.0).
+type bigWig
+bigDataUrl cpg_methylation_signal_hg38.bw
 color 200,0,0
 visibility dense
 graphTypeDefault bar
 viewLimits 0:1
 autoScale off
+windowingFunction mean
 maxHeightPixels 100:50:15
 yLineOnOff on
 gridDefault on
