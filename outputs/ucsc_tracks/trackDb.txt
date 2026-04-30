@@ -13,7 +13,7 @@ type bigBed 6
 bigDataUrl plasticity_genes.bb
 itemRgb on
 color 100,149,237
-visibility pack
+visibility full
 priority 1
 
 # ============================================================================
