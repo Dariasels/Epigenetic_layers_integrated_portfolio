@@ -84,7 +84,7 @@ shortLabel CpG Methylation - All
 longLabel Mean CpG methylation signal - per-site beta values (all samples averaged)
 description Per-CpG methylation signal built from mean beta values across available samples. Higher scores indicate higher methylation.
 type bigWig
-bigDataUrl cpg_methylation_signal_v4.bw
+bigDataUrl cpg_methylation_signal_v4_hg38.bw
 color 200,0,0
 visibility full
 graphTypeDefault bar
@@ -99,7 +99,7 @@ shortLabel CpG Methylation - Alzheimer's
 longLabel Mean CpG methylation in Alzheimer's Disease samples
 description Per-CpG methylation signal in Alzheimer's disease brain tissue
 type bigWig
-bigDataUrl cpg_methylation_signal_alzheimer_v4.bw
+bigDataUrl cpg_methylation_signal_alzheimer_v4_hg38.bw
 color 180,0,20
 visibility full
 graphTypeDefault bar
@@ -114,7 +114,7 @@ shortLabel CpG Methylation - Control
 longLabel Mean CpG methylation in cognitively normal control samples
 description Per-CpG methylation signal in aged control brain tissue
 type bigWig
-bigDataUrl cpg_methylation_signal_control_v4.bw
+bigDataUrl cpg_methylation_signal_control_v4_hg38.bw
 color 200,100,100
 visibility full
 graphTypeDefault bar
