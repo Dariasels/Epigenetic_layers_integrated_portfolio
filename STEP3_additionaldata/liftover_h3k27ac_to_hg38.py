@@ -123,6 +123,14 @@ def main():
                 skipped += 1
                 continue
             cols[0], cols[1], cols[2] = new_chrom, str(new_start), str(new_end)
+            # Make the score visible in the item name so the values are obvious in UCSC.
+            score = cols[4] if len(cols) > 4 else "0"
+            if src_name == "enhancers_h3k27ac_ad.bed":
+                cols[3] = f"{cols[3]}|AD={score}"
+            elif src_name == "enhancers_h3k27ac_control.bed":
+                cols[3] = f"{cols[3]}|CTRL={score}"
+            else:
+                cols[3] = f"{cols[3]}|AVG={score}"
             lifted_rows.append(cols)
 
         lifted_rows.sort(key=lambda r: (r[0], int(r[1]), int(r[2])))
