@@ -1,0 +1,31 @@
+# H3K27ac enhancer tracks from GSE102538
+# Genome: hg19
+
+track enhancers_h3k27ac
+shortLabel H3K27ac Enhancers - All
+longLabel H3K27ac ChIP-seq enhancers - all samples averaged
+lineColor 255,102,0
+visibility dense
+type bed
+bigDataUrl enhancers_h3k27ac.bed
+priority 1
+
+track enhancers_h3k27ac_ad
+shortLabel H3K27ac Enhancers - AD
+longLabel H3K27ac enhancer signal in Alzheimer's samples (GSE102538)
+description Condition-specific H3K27ac enhancer signal in Alzheimer samples from entorhinal cortex.
+lineColor 204,0,0
+visibility dense
+type bed
+bigDataUrl enhancers_h3k27ac_ad.bed
+priority 1.1
+
+track enhancers_h3k27ac_control
+shortLabel H3K27ac Enhancers - Control
+longLabel H3K27ac enhancer signal in control samples (GSE102538)
+description Condition-specific H3K27ac enhancer signal in control samples from entorhinal cortex.
+lineColor 0,102,204
+visibility dense
+type bed
+bigDataUrl enhancers_h3k27ac_control.bed
+priority 1.2

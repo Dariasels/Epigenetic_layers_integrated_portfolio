@@ -1,0 +1,6 @@
+hub H3K27acEnhancers_hg19
+shortLabel H3K27ac Enhancers hg19
+longLabel GSE102538 H3K27ac enhancer tracks (AD vs Control)
+genomesFile genomes_h3k27ac_hg19.txt
+email your_email@example.com
+descriptionUrl https://github.com/Dariasels/Epigenetic_layers_integrated_portfolio
