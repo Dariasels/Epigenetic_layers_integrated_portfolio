@@ -5,7 +5,8 @@ Generate UCSC Genome Browser track files (BED format) for visualization.
 Creates separate tracks for:
   - Plasticity genes (curated list)
   - ATAC-seq peaks (open chromatin)
-  - H3K27ac enhancers (active enhancers)
+    - H3K27ac enhancers (active enhancers)
+    - H3K27ac AD vs Control enhancer summaries
   - HIC loop anchors (3D chromatin contacts)
   - Methylation changes (promoter hypermethylation)
   - Integration summary (genes with concordant multi-layer changes)
@@ -18,6 +19,8 @@ Output files:
     ├── plasticity_genes.bed
     ├── atac_peaks.bed
     ├── enhancers_h3k27ac.bed
+    ├── enhancers_h3k27ac_ad.bed
+    ├── enhancers_h3k27ac_control.bed
     ├── hic_loop_anchors.bed
     ├── methylation_promoters.bed
     ├── integration_summary.bed
@@ -164,6 +167,59 @@ def export_enhancers(conn, output_dir):
     cursor.close()
     print(f"  ✅ Exported {count:,} enhancers")
 
+def export_enhancer_condition_tracks(conn, output_dir):
+    """Export AD and Control H3K27ac enhancer summary tracks."""
+    cursor = conn.cursor()
+
+    print("\n⭐ Exporting H3K27ac AD/Control enhancer summaries...")
+    cursor.execute("""
+        SELECT chrom, start_pos, end_pos, peak_name,
+               h3k27ac_ad_mean, h3k27ac_control_mean, h3k27ac_delta,
+               h3k27ac_ad_samples, h3k27ac_control_samples
+        FROM enhancers
+        WHERE dataset = 'GSE102538'
+          AND chrom NOT IN ('MT', 'chrM', 'Un_%')
+          AND h3k27ac_ad_mean IS NOT NULL
+          AND h3k27ac_control_mean IS NOT NULL
+        ORDER BY chrom, start_pos
+    """)
+
+    rows = cursor.fetchall()
+
+    with open(f"{output_dir}/enhancers_h3k27ac_ad.bed", "w") as fad, \
+         open(f"{output_dir}/enhancers_h3k27ac_control.bed", "w") as fctrl:
+        write_bed_header(
+            fad,
+            "H3K27ac_AD_Enhancers",
+            "H3K27ac enhancer signal in Alzheimer samples (GSE102538, entorhinal cortex)",
+            color="204,0,0",
+            visibility="dense",
+        )
+        write_bed_header(
+            fctrl,
+            "H3K27ac_Control_Enhancers",
+            "H3K27ac enhancer signal in Control samples (GSE102538, entorhinal cortex)",
+            color="0,102,204",
+            visibility="dense",
+        )
+
+        ad_count = 0
+        control_count = 0
+        for chrom, start, end, peak_name, ad_mean, control_mean, delta, ad_n, ctrl_n in rows:
+            chrom = normalize_chrom(chrom)
+            peak_id = peak_name or f"{chrom}_{start}_{end}"
+            ad_score = min(999, max(0, int(round(ad_mean))))
+            ctrl_score = min(999, max(0, int(round(control_mean))))
+            extra = f"{ad_mean:.3f}|{control_mean:.3f}|{delta:.3f}|ADn={ad_n}|Ctrln={ctrl_n}"
+            fad.write(f"{chrom}\t{int(start)}\t{int(end)}\t{peak_id}_AD\t{ad_score}\t+\t\t{extra}\n")
+            fctrl.write(f"{chrom}\t{int(start)}\t{int(end)}\t{peak_id}_CTRL\t{ctrl_score}\t+\t\t{extra}\n")
+            ad_count += 1
+            control_count += 1
+
+    cursor.close()
+    print(f"  ✅ Exported {ad_count:,} AD enhancer summaries")
+    print(f"  ✅ Exported {control_count:,} Control enhancer summaries")
+
 def export_hic_loop_anchors(conn, output_dir):
     """Export HIC loop endpoints as anchors"""
     cursor = conn.cursor()
@@ -298,7 +354,7 @@ def generate_hub_files(output_dir):
     # hub.txt
     hub_content = f"""hub Alzheimers_Epigenetics
 shortLabel Alzheimers Multi-Omics
-longLabel Alzheimers Disease Epigenetic Integration (AD vs Control Prefrontal Cortex)
+    longLabel Alzheimers Disease Epigenetic Integration (AD vs Control Entorhinal Cortex)
 genomesFile genomes.txt
 email your_email@example.com
 descriptionUrl http://your-institution.org/projects/alzheimers-omics
@@ -342,12 +398,32 @@ priority 2
 # H3K27ac Enhancers
 track enhancers_h3k27ac
 shortLabel H3K27ac Enhancers
-longLabel Active enhancers from H3K27ac ChIP-seq (GSE102538)
+longLabel Active enhancers from H3K27ac ChIP-seq (GSE102538, entorhinal cortex)
 type bigBed 6
 bigDataUrl enhancers_h3k27ac.bb
 color 255,102,0
 visibility pack
 priority 3
+
+# H3K27ac AD enhancers
+track enhancers_h3k27ac_ad
+shortLabel H3K27ac AD
+longLabel H3K27ac enhancer signal in Alzheimer samples (GSE102538, entorhinal cortex)
+type bigBed 6
+bigDataUrl enhancers_h3k27ac_ad.bb
+color 204,0,0
+visibility pack
+priority 3.1
+
+# H3K27ac Control enhancers
+track enhancers_h3k27ac_control
+shortLabel H3K27ac Control
+longLabel H3K27ac enhancer signal in Control samples (GSE102538, entorhinal cortex)
+type bigBed 6
+bigDataUrl enhancers_h3k27ac_control.bb
+color 0,102,204
+visibility pack
+priority 3.2
 
 # HIC 3D contacts
 track hic_loop_anchors
@@ -398,6 +474,8 @@ This directory contains BED files for visualizing the Alzheimers Disease multi-o
 - **plasticity_genes.bed** — 365 curated brain plasticity genes
 - **atac_peaks.bed** — Open chromatin regions (ATAC-seq, GSE129040)
 - **enhancers_h3k27ac.bed** — Active enhancers (H3K27ac ChIP-seq, GSE102538)
+- **enhancers_h3k27ac_ad.bed** — H3K27ac enhancers summarized in Alzheimer samples
+- **enhancers_h3k27ac_control.bed** — H3K27ac enhancers summarized in Control samples
 - **hic_loop_anchors.bed** — 3D chromatin contact loop endpoints
 - **methylation_promoters.bed** — Promoter methylation regions
 - **integration_summary.bed** — Genes with multi-layer evidence
@@ -492,6 +570,7 @@ if __name__ == "__main__":
         export_plasticity_genes(conn, output_dir)
         export_atac_peaks(conn, output_dir)
         export_enhancers(conn, output_dir)
+        export_enhancer_condition_tracks(conn, output_dir)
         export_hic_loop_anchors(conn, output_dir)
         export_methylation_changes(conn, output_dir)
         export_integration_summary(conn, output_dir)
