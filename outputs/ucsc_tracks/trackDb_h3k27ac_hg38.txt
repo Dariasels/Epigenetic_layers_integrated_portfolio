@@ -30,14 +30,14 @@ priority 1.2
 
 track enhancers_h3k27ac_signal
 shortLabel H3K27ac Enhancers - Signal
-longLabel H3K27ac enhancer signal (all samples, hg38)
+longLabel H3K27ac enhancer signal (all samples, weighted mean of AD & Control, hg38)
 type bigWig
 bigDataUrl h3k27ac_hg38/enhancers_h3k27ac_signal.bw
 color 255,102,0
 visibility full
 graphTypeDefault bar
-viewLimits 0:400
-autoScale on
+viewLimits 0:392
+autoScale off
 windowingFunction mean
 priority 0.9
 
@@ -49,8 +49,8 @@ bigDataUrl h3k27ac_hg38/enhancers_h3k27ac_ad_signal.bw
 color 204,0,0
 visibility full
 graphTypeDefault bar
-viewLimits 0:400
-autoScale on
+viewLimits 0:392
+autoScale off
 windowingFunction mean
 priority 1.05
 
@@ -62,7 +62,7 @@ bigDataUrl h3k27ac_hg38/enhancers_h3k27ac_control_signal.bw
 color 0,102,204
 visibility full
 graphTypeDefault bar
-viewLimits 0:400
-autoScale on
+viewLimits 0:392
+autoScale off
 windowingFunction mean
 priority 1.1
