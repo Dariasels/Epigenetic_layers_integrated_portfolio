@@ -66,7 +66,7 @@ track enhancers_h3k27ac_ad
 shortLabel Active Enhancers (H3K27ac) - AD
 longLabel H3K27ac enhancer signal in Alzheimer's samples (GSE102538)
 description Condition-specific H3K27ac enhancer signal track for Alzheimer's samples (entorhinal cortex). Score reflects mean signal across AD samples.
-type bed 6
+type bed
 bigDataUrl enhancers_h3k27ac_ad.bed
 color 204,0,0
 visibility dense
@@ -76,7 +76,7 @@ track enhancers_h3k27ac_control
 shortLabel Active Enhancers (H3K27ac) - Control
 longLabel H3K27ac enhancer signal in control samples (GSE102538)
 description Condition-specific H3K27ac enhancer signal track for control samples (entorhinal cortex). Score reflects mean signal across control samples.
-type bed 6
+type bed
 bigDataUrl enhancers_h3k27ac_control.bed
 color 0,102,204
 visibility dense
