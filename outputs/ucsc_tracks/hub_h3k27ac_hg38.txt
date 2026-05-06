@@ -1,0 +1,6 @@
+hub H3K27acEnhancers_hg38
+shortLabel H3K27ac Enhancers hg38
+longLabel GSE102538 H3K27ac enhancer tracks lifted to hg38 (AD vs Control)
+genomesFile genomes_h3k27ac_hg38.txt
+email your_email@example.com
+descriptionUrl https://github.com/Dariasels/Epigenetic_layers_integrated_portfolio
