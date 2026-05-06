@@ -50,37 +50,50 @@ visibility dense
 priority 2.2
 
 # ============================================================================
-# LAYER 3: Active Enhancers - H3K27ac ChIP-seq (182K enhancers)
+# LAYER 3: Active Enhancers - H3K27ac ChIP-seq (182K enhancers, normalized)
 # ============================================================================
-track enhancers_h3k27ac
-shortLabel Active Enhancers (H3K27ac) - All
-longLabel H3K27ac ChIP-seq enhancers - 182,330 active enhancers (all samples averaged)
-description H3K27ac-marked active enhancers from ChIP-seq (GSE102538). Score indicates number of linked genes. Associated genes shown in 9th column.
-type bigBed 6
-bigDataUrl enhancers_h3k27ac.bb
+# Normalized enhancer tracks with:
+# - "All" recomputed as weighted mean (24 AD samples + 23 Control samples)
+# - All three tracks on shared scale (0-392)
+
+track enhancers_h3k27ac_signal
+shortLabel H3K27ac Enhancers - Signal
+longLabel H3K27ac enhancer signal (all samples, weighted mean of AD & Control, hg38)
+type bigWig
+bigDataUrl h3k27ac_hg38/enhancers_h3k27ac_signal.bw
 color 255,102,0
-visibility dense
-priority 3
+visibility full
+graphTypeDefault bar
+viewLimits 0:392
+autoScale off
+windowingFunction mean
+priority 0.9
 
-track enhancers_h3k27ac_ad
-shortLabel Active Enhancers (H3K27ac) - AD
-longLabel H3K27ac enhancer signal in Alzheimer's samples (GSE102538)
-description Condition-specific H3K27ac enhancer signal track for Alzheimer's samples (entorhinal cortex). Score reflects mean signal across AD samples.
-type bed
-bigDataUrl enhancers_h3k27ac_ad.bed
+track enhancers_h3k27ac_ad_signal
+shortLabel H3K27ac AD Signal
+longLabel H3K27ac enhancer signal in Alzheimer's samples (hg38)
+type bigWig
+bigDataUrl h3k27ac_hg38/enhancers_h3k27ac_ad_signal.bw
 color 204,0,0
-visibility dense
-priority 3.1
+visibility full
+graphTypeDefault bar
+viewLimits 0:392
+autoScale off
+windowingFunction mean
+priority 1.05
 
-track enhancers_h3k27ac_control
-shortLabel Active Enhancers (H3K27ac) - Control
-longLabel H3K27ac enhancer signal in control samples (GSE102538)
-description Condition-specific H3K27ac enhancer signal track for control samples (entorhinal cortex). Score reflects mean signal across control samples.
-type bed
-bigDataUrl enhancers_h3k27ac_control.bed
+track enhancers_h3k27ac_control_signal
+shortLabel H3K27ac Control Signal
+longLabel H3K27ac enhancer signal in control samples (hg38)
+type bigWig
+bigDataUrl h3k27ac_hg38/enhancers_h3k27ac_control_signal.bw
 color 0,102,204
-visibility dense
-priority 3.2
+visibility full
+graphTypeDefault bar
+viewLimits 0:392
+autoScale off
+windowingFunction mean
+priority 1.1
 
 
 # ============================================================================
