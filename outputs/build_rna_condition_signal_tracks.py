@@ -11,6 +11,7 @@ inspection and debugging.
 from __future__ import annotations
 
 import os
+import subprocess
 from pathlib import Path
 
 import mysql.connector
@@ -19,6 +20,8 @@ import pyBigWig
 ROOT = Path('/home/daria/Epigenetic_layers_integrated_portfolio')
 OUTDIR = ROOT / 'outputs' / 'ucsc_tracks' / 'rna_hg38'
 CHROMSIZES = ROOT / 'tools' / 'juicebox' / 'tools' / 'chrom' / 'sizes' / 'hg38.chrom.sizes'
+BEDTOBIGBED = Path('/tmp/bedToBigBed')
+BEDTOBIGBED_FALLBACK = Path('/home/daria/anaconda3/bin/bedToBigBed')
 
 DB_CONFIG = {
     'host': 'localhost',
@@ -45,6 +48,8 @@ TRACKS = {
 }
 
 PLASTICITY_LOG2FC_BED = OUTDIR / 'plasticity_genes_rna_log2fc.bed'
+PLASTICITY_LOG2FC_BED6 = OUTDIR / 'plasticity_genes_rna_log2fc.clean.bed'
+PLASTICITY_LOG2FC_BB = OUTDIR / 'plasticity_genes_rna_log2fc.bb'
 
 
 def connect():
@@ -169,10 +174,10 @@ def write_plasticity_log2fc_labels(sizes: dict[str, int], order: dict[str, int])
             continue
 
         if rna_delta is None:
-            label = f'{gene_symbol} log2FC AD-control: NA'
+            label = f'{gene_symbol}:NA'
             score = 100
         else:
-            label = f'{gene_symbol} log2FC AD-control: {float(rna_delta):.3f}'
+            label = f'{gene_symbol}:{float(rna_delta):.3f}'
             score = min(999, max(100, int(abs(float(rna_delta)) * 250)))
 
         entries.append((chrom, start, end, label, score))
@@ -181,13 +186,33 @@ def write_plasticity_log2fc_labels(sizes: dict[str, int], order: dict[str, int])
     with PLASTICITY_LOG2FC_BED.open('w') as out:
         out.write(
             'track name="Plasticity_RNA_log2FC" '
-            'description="Plasticity genes with RNA log2FC (AD-control) labels" '
+            'description="Plasticity genes with RNA log2FC values (AD-control) labels" '
             'color=120,80,200 visibility=pack\n'
         )
         for chrom, start, end, label, score in entries:
             out.write(f'{chrom}\t{start}\t{end}\t{label}\t{score}\t+\n')
 
-    print(f'wrote {PLASTICITY_LOG2FC_BED.name} ({len(entries):,} plasticity genes with labels)')
+    with PLASTICITY_LOG2FC_BED6.open('w') as out:
+        for chrom, start, end, label, score in entries:
+            out.write(f'{chrom}\t{start}\t{end}\t{label}\t{score}\t+\n')
+
+    bed_to_big_bed = BEDTOBIGBED if BEDTOBIGBED.exists() else BEDTOBIGBED_FALLBACK
+    if bed_to_big_bed.exists():
+        subprocess.run([
+            str(bed_to_big_bed),
+            str(PLASTICITY_LOG2FC_BED6),
+            str(CHROMSIZES),
+            str(PLASTICITY_LOG2FC_BB),
+        ], check=True)
+    else:
+        raise FileNotFoundError(
+            f'missing bedToBigBed converter at {BEDTOBIGBED} or {BEDTOBIGBED_FALLBACK}'
+        )
+
+    print(
+        f'wrote {PLASTICITY_LOG2FC_BED.name} and {PLASTICITY_LOG2FC_BB.name} '
+        f'({len(entries):,} plasticity genes with labels)'
+    )
 
 
 def write_tracks() -> None:

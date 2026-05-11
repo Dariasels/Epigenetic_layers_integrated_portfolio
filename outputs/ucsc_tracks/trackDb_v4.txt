@@ -46,6 +46,16 @@ autoScale on
 windowingFunction mean
 priority 1.02
 
+track plasticity_genes_rna_log2fc
+shortLabel Plasticity RNA log2FC
+longLabel Plasticity genes with RNA log2FC (AD-control) labels
+type bigBed 6
+bigDataUrl rna_hg38/plasticity_genes_rna_log2fc.bb
+color 120,80,200
+showLabels on
+visibility pack
+priority 1.03
+
 
 # LAYER 2: Open Chromatin - ATAC-seq Peaks (370K peaks)
 # ============================================================================
