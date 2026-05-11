@@ -17,6 +17,36 @@ visibility full
 priority 1
 
 # ============================================================================
+# ==========================================================================
+# LAYER 3.5: RNA Microarray Expression (gene-level summaries)
+# ==========================================================================
+track rna_expression_ad_signal
+shortLabel RNA Expression AD
+longLabel Mean RNA microarray expression in Alzheimer's samples (gene-level)
+type bigWig
+bigDataUrl rna_hg38/rna_expression_ad_signal.bw
+color 204,0,0
+visibility full
+graphTypeDefault bar
+viewLimits 0:15
+autoScale on
+windowingFunction mean
+priority 1.01
+
+track rna_expression_control_signal
+shortLabel RNA Expression Control
+longLabel Mean RNA microarray expression in control samples (gene-level)
+type bigWig
+bigDataUrl rna_hg38/rna_expression_control_signal.bw
+color 0,102,204
+visibility full
+graphTypeDefault bar
+viewLimits 0:15
+autoScale on
+windowingFunction mean
+priority 1.02
+
+
 # LAYER 2: Open Chromatin - ATAC-seq Peaks (370K peaks)
 # ============================================================================
 track atac_peaks
